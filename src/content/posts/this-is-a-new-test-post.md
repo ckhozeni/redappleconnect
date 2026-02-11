@@ -6,6 +6,6 @@ category: Test
 tags:
   - ai
 featuredImage: /uploads/whatsapp-image-2026-02-11-at-14.51.37.jpeg
-draft: true
+draft: false
 ---
 This is the post content
