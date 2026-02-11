@@ -7,11 +7,16 @@ const CATEGORY_DEFAULT = "Tech Trends";
 
 // Keyword rules (edit anytime)
 const rules = [
-  { cat: "AI", keys: ["ai", "chatgpt", "claude", "llm", "prompt", "automation"], tags: ["ai","tools"] },
-  { cat: "Hosting", keys: ["hosting", "server", "dns", "domain", "cpanel", "vps", "ssl"], tags: ["hosting"] },
+  { cat: "Hosting", keys: ["hosting", "web hosting", "server", "dns", "domain", "cpanel", "vps", "ssl"], tags: ["hosting"] },
+
   { cat: "Web Design", keys: ["wordpress", "elementor", "plugin", "theme", "landing", "ui", "ux", "web design", "website"], tags: ["web-design","wordpress","elementor"] },
-  { cat: "Graphic Design", keys: ["graphic", "branding", "logo", "typography", "poster"], tags: ["graphic-design"] },
-  { cat: "Tech Trends", keys: ["tech", "trends", "fintech", "south africa", "sa"], tags: ["tech-trends","south-africa"] },
+
+  { cat: "Graphic Design", keys: ["graphic design", "graphic", "branding", "logo", "typography", "poster"], tags: ["graphic-design"] },
+
+  { cat: "Tech Trends", keys: ["tech trends", "tech", "trends", "fintech", "south africa", "public procurement", "tenders"], tags: ["south-africa","tools"] },
+
+  // AI LAST + only specific triggers (not the word "ai")
+  { cat: "AI", keys: ["chatgpt", "claude", "llm", "prompt", "ai tools", "artificial intelligence"], tags: ["ai","tools"] },
 ];
 
 // Allowed tags list (we only keep these)
