@@ -1,16 +1,20 @@
 ---
-title: "How to Protect Your WordPress Website with Elementor Pro Security"
-description: "As a WordPress website owner, keeping your site safe is key. It&#8217;s vital to protect your data and users. Elementor Pro is a reliable tool that can help with this. It offers many security features to boost your site&#8217;s safety. Elementor Pro can elevate your WordPress website&#8217;s security. Knowing the importance of security and using&#8230;"
+title: How to Protect Your WordPress Website with Elementor Pro Security
+description: As a WordPress website owner, keeping your site safe is key.
+  It&#8217;s vital to protect your data and users. Elementor Pro is a reliable
+  tool that can help with this. It offers many security features to boost your
+  site&#8217;s safety. Elementor Pro can elevate your WordPress website&#8217;s
+  security. Knowing the importance of security and using&#8230;
 pubDate: 2025-03-05T11:58:29
-category: "Hosting"
+category: Web Design
 tags:
-  - "hosting"
-  - "wordpress"
-  - "elementor"
-  - "security"
-  - "south-africa"
-  - "ai"
-  - "web-design"
+  - hosting
+  - wordpress
+  - elementor
+  - security
+  - south-africa
+  - ai
+  - web-design
 draft: false
 ---
 
