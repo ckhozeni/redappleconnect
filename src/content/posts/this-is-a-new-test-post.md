@@ -1,0 +1,8 @@
+---
+title: This is a new test post
+description: This is our description text. It might not make sense.
+pubDate: 2026-02-11T20:51:00.000+02:00
+category: Test
+draft: true
+---
+This is the post content
