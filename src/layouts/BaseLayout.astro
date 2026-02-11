@@ -8,6 +8,9 @@ import "../styles/global.css";
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Red Apple Connect</title>
 
+  <!-- Netlify Identity (site-wide, needed for password reset link) -->
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
   <script>
     const saved = localStorage.getItem("theme");
     if (saved) document.documentElement.dataset.theme = saved;
@@ -24,7 +27,7 @@ import "../styles/global.css";
         <a href="/blog/">Blog</a>
       </nav>
 
-      <button id="toggle">Theme</button>
+      <button id="toggle" type="button">Theme</button>
     </div>
   </header>
 
@@ -37,11 +40,21 @@ import "../styles/global.css";
   </footer>
 
   <script>
+    // Theme toggle
     document.getElementById("toggle").onclick = () => {
       const t = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
       document.documentElement.dataset.theme = t;
       localStorage.setItem("theme", t);
     };
+
+    // Netlify Identity password recovery: open modal when reset link redirects back
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", () => {
+        if (window.location.hash && window.location.hash.includes("recovery_token")) {
+          window.netlifyIdentity.open("recovery");
+        }
+      });
+    }
   </script>
 </body>
 </html>
