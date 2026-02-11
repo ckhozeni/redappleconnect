@@ -1,12 +1,13 @@
 ---
 title: "The Game-Changing Rise of AI Design Tools: Best Picks for South African Creatives"
-description: "The Game-Changing Rise of AI Design Tools: Best Picks for South African Creatives"
+description: "Introduction to AI Design Tools AI design tools are software applications that use artificial intelligence to assist with tasks like generating visuals, automating workflows, and enhancing creativity. For South African creatives, these tools can bridge resource gaps, making advanced design techniques accessible and affordable. Whether you’re in Johannesburg or Cape Town, these tools can help&#8230;"
 pubDate: 2025-08-07T08:56:49
-category: "Imported"
+category: "Graphic Design"
 tags:
   - "imported"
 draft: false
 ---
+
 
 ### Introduction to AI Design Tools
 
