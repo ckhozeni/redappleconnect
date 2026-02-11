@@ -2,9 +2,12 @@
 title: "Health and Wellness Trends in South Africa: What’s Hot Right Now?"
 description: "Introduction Health and wellness have become top priorities for many South Africans, especially in the wake of the COVID-19 pandemic. With an increasing focus on maintaining physical and mental well-being, the demand for fitness equipment, wellness programs, and mental health support has surged. In this blog post, we’ll explore the latest health and wellness trends&#8230;"
 pubDate: 2024-09-01T08:00:00
-category: "Tech Trends"
+category: "AI"
 tags:
-  - "tech-trends"
+  - "ai"
+  - "tools"
+  - "south-africa"
+  - "web-design"
 draft: false
 ---
 

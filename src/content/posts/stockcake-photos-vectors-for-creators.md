@@ -6,6 +6,7 @@ category: "AI"
 tags:
   - "ai"
   - "tools"
+  - "web-design"
 draft: false
 ---
 

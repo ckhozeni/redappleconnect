@@ -6,6 +6,8 @@ category: "AI"
 tags:
   - "ai"
   - "tools"
+  - "south-africa"
+  - "web-design"
 draft: false
 ---
 

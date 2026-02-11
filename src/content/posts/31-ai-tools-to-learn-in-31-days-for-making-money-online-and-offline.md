@@ -6,6 +6,10 @@ category: "AI"
 tags:
   - "ai"
   - "tools"
+  - "freelancing"
+  - "south-africa"
+  - "web-design"
+  - "graphic-design"
 draft: false
 ---
 

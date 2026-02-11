@@ -3,17 +3,37 @@ import path from "path";
 
 const dir = "./src/content/posts";
 
+const CATEGORY_DEFAULT = "Tech Trends";
+
+// Keyword rules (edit anytime)
 const rules = [
-  { match: ["ai", "chatgpt", "claude", "model", "tools"], category: "AI", tags: ["ai","tools"] },
-  { match: ["hosting", "server", "domain", "dns", "cpanel"], category: "Hosting", tags: ["hosting"] },
-  { match: ["wordpress", "elementor", "plugin", "theme", "security"], category: "Web Design", tags: ["wordpress","elementor","security"] },
-  { match: ["web-design", "web design", "ui", "ux", "landing"], category: "Web Design", tags: ["web-design"] },
-  { match: ["graphic", "design"], category: "Graphic Design", tags: ["graphic-design"] },
-  { match: ["tech", "trends", "fintech"], category: "Tech Trends", tags: ["tech-trends"] },
+  { cat: "AI", keys: ["ai", "chatgpt", "claude", "llm", "prompt", "automation"], tags: ["ai","tools"] },
+  { cat: "Hosting", keys: ["hosting", "server", "dns", "domain", "cpanel", "vps", "ssl"], tags: ["hosting"] },
+  { cat: "Web Design", keys: ["wordpress", "elementor", "plugin", "theme", "landing", "ui", "ux", "web design", "website"], tags: ["web-design","wordpress","elementor"] },
+  { cat: "Graphic Design", keys: ["graphic", "branding", "logo", "typography", "poster"], tags: ["graphic-design"] },
+  { cat: "Tech Trends", keys: ["tech", "trends", "fintech", "south africa", "sa"], tags: ["tech-trends","south-africa"] },
 ];
 
-function parseFrontmatter(raw) {
-  const text = raw.replace(/\r\n/g, "\n");
+// Allowed tags list (we only keep these)
+const ALLOWED_TAGS = new Set([
+  "ai",
+  "wordpress",
+  "elementor",
+  "hosting",
+  "web-design",
+  "graphic-design",
+  "tools",
+  "south-africa",
+  "freelancing",
+  "security",
+]);
+
+function normNewlines(raw) {
+  return raw.replace(/\r\n/g, "\n");
+}
+
+function splitFrontmatter(raw) {
+  const text = normNewlines(raw);
   const m = text.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
   if (!m) return null;
   return { fm: m[1], body: m[2] };
@@ -25,59 +45,92 @@ function getField(fm, key) {
   return m ? m[1].trim() : "";
 }
 
-function setFrontmatter({ fm, body }, updates) {
-  // keep existing title/description/pubDate
-  const title = getField(fm, "title") || `"Untitled"`;
-  const description = getField(fm, "description") || title;
-  const pubDate = getField(fm, "pubDate") || new Date().toISOString();
-
-  const category = updates.category;
-  const tags = updates.tags.length ? updates.tags : ["imported"];
-
-  const out =
-`---
-title: ${title}
-description: ${description}
-pubDate: ${pubDate}
-category: "${category}"
-tags:
-${tags.map(t => `  - "${t}"`).join("\n")}
-draft: false
----
-
-${body.trim()}\n`;
-
-  return out;
+function stripQuotes(s) {
+  return s.replace(/^"(.*)"$/,"$1").replace(/^'(.*)'$/,"$1");
 }
 
-function chooseCategoryAndTags(fileName, titleText) {
-  const hay = (fileName + " " + titleText).toLowerCase();
+function pickByKeywords(fileName, titleText, bodyText) {
+  const hay = (fileName + " " + titleText + " " + bodyText).toLowerCase();
+
   for (const r of rules) {
-    if (r.match.some(k => hay.includes(k))) {
-      return { category: r.category, tags: r.tags };
+    if (r.keys.some(k => hay.includes(k))) {
+      return { category: r.cat, tags: r.tags };
     }
   }
-  return { category: "Tech Trends", tags: ["tech-trends"] };
+  return { category: CATEGORY_DEFAULT, tags: ["tools"] };
+}
+
+function unique(list) {
+  return [...new Set(list)];
+}
+
+function clampTags(tags) {
+  // keep only allowed tags
+  const clean = unique(tags.map(t => String(t).toLowerCase().trim()))
+    .filter(t => ALLOWED_TAGS.has(t));
+  return clean.length ? clean : ["tools"];
+}
+
+function buildFrontmatter(existingFm, updates) {
+  const title = getField(existingFm, "title") || `"Untitled"`;
+  const description = getField(existingFm, "description") || title;
+  const pubDate = getField(existingFm, "pubDate") || new Date().toISOString();
+
+  const category = updates.category;
+  const tags = clampTags(updates.tags);
+
+  return `---\n` +
+    `title: ${title}\n` +
+    `description: ${description}\n` +
+    `pubDate: ${pubDate}\n` +
+    `category: "${category}"\n` +
+    `tags:\n` +
+    tags.map(t => `  - "${t}"`).join("\n") + `\n` +
+    `draft: false\n` +
+    `---\n`;
 }
 
 const files = fs.readdirSync(dir).filter(f => f.endsWith(".md"));
 
 let changed = 0;
+let skipped = 0;
+
 for (const f of files) {
-  // skip your test files if you want
-  if (f === "test-post.md" || f === "this-is-a-new-test-post.md") continue;
+  // leave your manual test posts alone
+  if (f === "test-post.md" || f === "this-is-a-new-test-post.md") { skipped++; continue; }
 
   const p = path.join(dir, f);
   const raw = fs.readFileSync(p, "utf8");
-  const parsed = parseFrontmatter(raw);
-  if (!parsed) continue;
+  const parsed = splitFrontmatter(raw);
+  if (!parsed) { skipped++; continue; }
 
-  const title = getField(parsed.fm, "title").replace(/^"|"$/g, "");
-  const pick = chooseCategoryAndTags(f, title);
+  const title = stripQuotes(getField(parsed.fm, "title") || "");
+  const body = parsed.body || "";
 
-  const updated = setFrontmatter(parsed, pick);
-  fs.writeFileSync(p, updated, "utf8");
+  const pick = pickByKeywords(f, title, body);
+
+  // Add extra smart tags based on content
+  const extraTags = [];
+  const hay = (f + " " + title + " " + body).toLowerCase();
+
+  if (hay.includes("wordpress")) extraTags.push("wordpress");
+  if (hay.includes("elementor")) extraTags.push("elementor");
+  if (hay.includes("security")) extraTags.push("security");
+  if (hay.includes("freelance") || hay.includes("freelancing")) extraTags.push("freelancing");
+  if (hay.includes("south africa") || hay.includes("pretoria") || hay.includes("za")) extraTags.push("south-africa");
+  if (hay.includes("hosting") || hay.includes("dns") || hay.includes("ssl")) extraTags.push("hosting");
+  if (hay.includes("ai") || hay.includes("chatgpt") || hay.includes("claude")) extraTags.push("ai");
+  if (hay.includes("web design") || hay.includes("website") || hay.includes("ui") || hay.includes("ux")) extraTags.push("web-design");
+  if (hay.includes("graphic") || hay.includes("logo") || hay.includes("branding")) extraTags.push("graphic-design");
+
+  const fm = buildFrontmatter(parsed.fm, {
+    category: pick.category,
+    tags: unique([...pick.tags, ...extraTags]),
+  });
+
+  fs.writeFileSync(p, fm + "\n" + normNewlines(body).trim() + "\n", "utf8");
   changed++;
 }
 
 console.log(`✅ Updated ${changed} posts`);
+console.log(`ℹ️ Skipped ${skipped} files (tests or missing frontmatter)`);
