@@ -1,0 +1,47 @@
+---
+import "../styles/global.css";
+---
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Red Apple Connect</title>
+
+  <script>
+    const saved = localStorage.getItem("theme");
+    if (saved) document.documentElement.dataset.theme = saved;
+  </script>
+</head>
+
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="/" class="logo">Red Apple Connect</a>
+
+      <nav>
+        <a href="/">Home</a>
+        <a href="/blog/">Blog</a>
+      </nav>
+
+      <button id="toggle">Theme</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <slot />
+  </main>
+
+  <footer class="footer">
+    © {new Date().getFullYear()} Red Apple Connect
+  </footer>
+
+  <script>
+    document.getElementById("toggle").onclick = () => {
+      const t = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+      document.documentElement.dataset.theme = t;
+      localStorage.setItem("theme", t);
+    };
+  </script>
+</body>
+</html>

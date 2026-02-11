@@ -1,0 +1,51 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("posts"))
+  .filter(p => !p.data.draft)
+  .sort((a,b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
+  .slice(0, 6);
+---
+
+<BaseLayout>
+  <section class="hero">
+    <div>
+      <h1 class="hero-title">Red Apple Connect</h1>
+      <p class="hero-sub">
+        AI, Hosting, WordPress, Web Design & Graphic Design insights — practical and to the point.
+      </p>
+
+      <div class="hero-actions">
+        <a class="cta" href="/blog/">Read the blog</a>
+        <a class="cta ghost" href="/blog/">Latest posts</a>
+      </div>
+    </div>
+
+    <div class="hero-box">
+      <div class="badge">Light • Fast • SEO-ready</div>
+      <h2 class="hero-box-title">Minimal site. Maximum speed.</h2>
+      <p class="hero-box-sub">
+        Built with Astro for performance. Posts in Markdown. Future CMS-ready.
+      </p>
+    </div>
+  </section>
+
+  <h2 style="margin:30px 0 16px;">Latest posts</h2>
+
+  <div class="cards">
+    {posts.map(post => (
+      <article class="post-card">
+        <h3 style="margin-top:0;">
+          <a href={`/blog/${post.slug}/`}>{post.data.title}</a>
+        </h3>
+        <p class="meta">{post.data.pubDate.toDateString()} · {post.data.category}</p>
+        <p style="margin-bottom:0;">{post.data.description}</p>
+      </article>
+    ))}
+  </div>
+
+  <p style="margin-top:24px;">
+    <a href="/blog/">View all posts →</a>
+  </p>
+</BaseLayout>

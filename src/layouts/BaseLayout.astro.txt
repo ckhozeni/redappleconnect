@@ -1,0 +1,34 @@
+---
+import "../styles/global.css";
+---
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>Red Apple Connect</title>
+
+  <script>
+    const saved = localStorage.getItem("theme");
+    if (saved) document.documentElement.dataset.theme = saved;
+  </script>
+</head>
+
+<body>
+  <header style="padding:20px;display:flex;justify-content:space-between;align-items:center;">
+    <div style="font-weight:800;font-size:20px;">Red Apple Connect</div>
+
+    <button onclick="
+      const t=document.documentElement.dataset.theme==='dark'?'light':'dark';
+      document.documentElement.dataset.theme=t;
+      localStorage.setItem('theme',t);
+    ">
+      Toggle Theme
+    </button>
+  </header>
+
+  <main style="max-width:1000px;margin:0 auto;padding:20px;">
+    <slot />
+  </main>
+</body>
+</html>
