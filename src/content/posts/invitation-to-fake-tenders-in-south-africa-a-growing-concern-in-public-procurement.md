@@ -2,12 +2,11 @@
 title: "Invitation to Fake Tenders in South Africa: A Growing Concern in Public Procurement"
 description: "In recent years, South Africa has witnessed a disturbing rise in fraudulent activities related to tenders. Fake tenders are not just a minor inconvenience; they represent a significant threat to the integrity of public procurement and the overall economic landscape. As businesses navigate the complexities of tendering, it’s crucial to remain vigilant against this growing&#8230;"
 pubDate: 2024-08-10T01:00:39
-category: "Technology"
+category: "Tech Trends"
 tags:
-  - "imported"
+  - "tech-trends"
 draft: false
 ---
-
 
 In recent years, South Africa has witnessed a disturbing rise in fraudulent activities related to tenders. Fake tenders are not just a minor inconvenience; they represent a significant threat to the integrity of public procurement and the overall economic landscape. As businesses navigate the complexities of tendering, it’s crucial to remain vigilant against this growing menace. This article delves into the world of fake tenders, exploring their impact, how to identify them, and the steps to take to protect yourself and your business.
 

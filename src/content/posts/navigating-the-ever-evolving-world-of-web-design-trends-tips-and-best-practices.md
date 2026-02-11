@@ -4,10 +4,9 @@ description: "In the digital world, where people make snap judgments, having a w
 pubDate: 2024-04-10T23:55:00
 category: "Web Design"
 tags:
-  - "imported"
+  - "web-design"
 draft: false
 ---
-
 
 Table of Contents
 

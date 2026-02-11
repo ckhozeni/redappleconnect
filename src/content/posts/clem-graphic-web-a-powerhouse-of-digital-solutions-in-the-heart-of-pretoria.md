@@ -2,12 +2,11 @@
 title: "Clem Graphic &amp; Web: A Powerhouse of Digital Solutions in the Heart of Pretoria"
 description: "Clem Graphic &amp; Web: A Powerhouse of Digital Solutions in the Heart of Pretoria When it comes to digital creativity and technical expertise, Clem Graphic &amp; Web emerges as a true champion in the local design and digital services landscape. Nestled in the bustling suburb of Sunnyside, Pretoria, this dynamic enterprise has carved out a&#8230;"
 pubDate: 2024-12-06T22:53:39
-category: "Misc"
+category: "Graphic Design"
 tags:
-  - "imported"
+  - "graphic-design"
 draft: false
 ---
-
 
 # Clem Graphic & Web: A Powerhouse of Digital Solutions in the Heart of Pretoria
 

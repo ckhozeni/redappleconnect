@@ -2,12 +2,12 @@
 title: "Stockcake: Unleash Your Creativity with Free, AI-Generated Images"
 description: "Introduction: In the world of content creation, visuals are king. Whether you&#8217;re a blogger, marketer, or social media enthusiast, captivating images are essential for grabbing attention and conveying your message effectively. But finding the right images can be a challenge, especially when you&#8217;re on a budget. That&#8217;s where Stockcake comes in. What is Stockcake? Stockcake&#8230;"
 pubDate: 2024-07-18T19:44:44
-category: "Graphic Design"
+category: "AI"
 tags:
-  - "imported"
+  - "ai"
+  - "tools"
 draft: false
 ---
-
 
 **Introduction:**
 
