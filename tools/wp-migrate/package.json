@@ -1,0 +1,20 @@
+{
+  "name": "wp-migrate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "he": "^1.2.0",
+    "jsdom": "^28.0.0",
+    "slugify": "^1.6.6",
+    "turndown": "^7.2.2",
+    "xml2js": "^0.6.2"
+  }
+}
