@@ -1,68 +1,69 @@
 ---
 import "../styles/global.css";
+import { SITE } from "../consts";
+
+const pageTitle = Astro.props?.title ? `${Astro.props.title} | ${SITE.name}` : SITE.name;
+const pageDesc = Astro.props?.description || SITE.description;
+const canonical = new URL(Astro.url.pathname, SITE.url).toString();
 ---
 
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Red Apple Connect</title>
 
-  <!-- Netlify Identity (site-wide, needed for password reset link) -->
+  <title>{pageTitle}</title>
+  <meta name="description" content={pageDesc} />
+  <link rel="canonical" href={canonical} />
+
+  <meta name="robots" content="index,follow" />
+
+  <meta property="og:site_name" content={SITE.name} />
+  <meta property="og:title" content={pageTitle} />
+  <meta property="og:description" content={pageDesc} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:type" content="website" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" href="/favicon.ico" />
+
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-
 
   <script>
     const saved = localStorage.getItem("theme");
     if (saved) document.documentElement.dataset.theme = saved;
   </script>
 </head>
-<script>
-  // Theme toggle (keep yours if you want)
-  document.getElementById("toggle").onclick = () => {
-    const t = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
-    document.documentElement.dataset.theme = t;
-    localStorage.setItem("theme", t);
-  };
-
-  // ✅ Netlify Identity: force init + open recovery if token is present
-  (function () {
-    function openRecoveryIfToken() {
-      if (window.location.hash && window.location.hash.includes("recovery_token=")) {
-        window.netlifyIdentity.open("recovery");
-      }
-    }
-
-    function boot() {
-      if (!window.netlifyIdentity) return;
-
-      // Force init (important)
-      try { window.netlifyIdentity.init(); } catch (e) {}
-
-      openRecoveryIfToken();
-
-      // Also handle cases where hash appears after load
-      window.addEventListener("hashchange", openRecoveryIfToken);
-    }
-
-    // If widget already loaded
-    if (window.netlifyIdentity) boot();
-    // If widget loads after this script
-    else window.addEventListener("load", boot);
-  })();
-</script>
 
 <body>
   <header class="nav">
     <div class="container nav-inner">
-      <a href="/" class="logo">Red Apple Connect</a>
+      <a href="/" class="logo">
+        <img src="/images/logo.png" alt="Red Apple Connect" height="28" />
+      </a>
 
-      <nav>
+      <nav class="nav-links">
         <a href="/">Home</a>
         <a href="/blog/">Blog</a>
+        <a href="/category/Graphic%20Design/">Graphic Design</a>
+
+        <div class="nav-dd">
+          <button class="nav-dd-btn" type="button" aria-haspopup="true" aria-expanded="false">
+            Categories
+          </button>
+
+          <div class="nav-dd-menu" role="menu">
+            <a role="menuitem" href="/category/AI/">AI</a>
+            <a role="menuitem" href="/category/Hosting/">Hosting</a>
+            <a role="menuitem" href="/category/Web%20Design/">Web Design</a>
+            <a role="menuitem" href="/category/Graphic%20Design/">Graphic Design</a>
+            <a role="menuitem" href="/category/Tech%20Trends/">Tech Trends</a>
+          </div>
+        </div>
       </nav>
 
-      <button id="toggle" type="button">Theme</button>
+      <button id="toggle" type="button" class="cta ghost">Light</button>
     </div>
   </header>
 
@@ -75,19 +76,65 @@ import "../styles/global.css";
   </footer>
 
   <script>
-    // Theme toggle
-    document.getElementById("toggle").onclick = () => {
-      const t = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
-      document.documentElement.dataset.theme = t;
-      localStorage.setItem("theme", t);
-    };
+    // Theme toggle + label
+    const toggleBtn = document.getElementById("toggle");
+    function setThemeLabel() {
+      if (!toggleBtn) return;
+      const t = document.documentElement.dataset.theme || "light";
+      toggleBtn.textContent = t === "dark" ? "Dark" : "Light";
+    }
+    if (toggleBtn) {
+      setThemeLabel();
+      toggleBtn.addEventListener("click", () => {
+        const t = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+        document.documentElement.dataset.theme = t;
+        localStorage.setItem("theme", t);
+        setThemeLabel();
+      });
+    }
 
-    // Netlify Identity password recovery: open modal when reset link redirects back
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on("init", () => {
-        if (window.location.hash && window.location.hash.includes("recovery_token")) {
+    // Netlify Identity recovery
+    (function () {
+      function openRecoveryIfToken() {
+        if (window.location.hash && window.location.hash.includes("recovery_token=")) {
           window.netlifyIdentity.open("recovery");
         }
+      }
+
+      function boot() {
+        if (!window.netlifyIdentity) return;
+        try { window.netlifyIdentity.init(); } catch (e) {}
+        openRecoveryIfToken();
+        window.addEventListener("hashchange", openRecoveryIfToken);
+      }
+
+      if (window.netlifyIdentity) boot();
+      else window.addEventListener("load", boot);
+    })();
+
+    // Categories dropdown
+    const dd = document.querySelector(".nav-dd");
+    const ddBtn = document.querySelector(".nav-dd-btn");
+
+    function closeDD() {
+      if (!dd || !ddBtn) return;
+      dd.classList.remove("open");
+      ddBtn.setAttribute("aria-expanded", "false");
+    }
+
+    if (dd && ddBtn) {
+      ddBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        const open = dd.classList.toggle("open");
+        ddBtn.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!dd.contains(e.target)) closeDD();
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeDD();
       });
     }
   </script>

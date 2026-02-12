@@ -2,25 +2,39 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 
-const posts = (await getCollection("posts"))
+const allPosts = (await getCollection("posts"))
   .filter(p => !p.data.draft)
   .sort((a,b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+
+const categories = Array.from(new Set(allPosts.map(p => p.data.category).filter(Boolean)));
 ---
 
 <BaseLayout>
   <section class="pagehead">
     <div>
       <h1 class="page-title">Blog</h1>
-      <p class="page-sub">Latest articles on AI, hosting, WordPress and design workflows.</p>
+      <p class="page-sub">Latest articles on AI, hosting, web design and graphic design.</p>
     </div>
     <a class="cta ghost" href="/">Back home</a>
   </section>
 
-  {posts.length === 0 && <p>No posts yet.</p>}
+  <section class="filters">
+    <input id="search" class="search" type="search" placeholder="Search posts..." />
+    <div class="chips" id="chips">
+      <button class="chip is-active" data-cat="all" type="button">All</button>
+      {categories.map(cat => (
+        <button class="chip" data-cat={cat} type="button">{cat}</button>
+      ))}
+    </div>
+  </section>
 
-  <div class="cards">
-    {posts.map(post => (
-      <article class="post-card">
+  <div class="cards" id="grid">
+    {allPosts.map(post => (
+      <article
+        class="post-card"
+        data-cat={post.data.category}
+        data-title={(post.data.title + " " + post.data.description).toLowerCase()}
+      >
         <h2 class="post-title">
           <a href={`/blog/${post.slug}/`}>{post.data.title}</a>
         </h2>
@@ -33,7 +47,7 @@ const posts = (await getCollection("posts"))
         <p class="desc">{post.data.description}</p>
 
         <div class="tags">
-          {post.data.tags?.slice(0, 4).map(t => (
+          {post.data.tags?.slice(0, 6).map(t => (
             <a class="tag" href={`/tag/${t}/`}>#{t}</a>
           ))}
         </div>
@@ -44,4 +58,38 @@ const posts = (await getCollection("posts"))
       </article>
     ))}
   </div>
+
+  <script is:inline>
+    const search = document.getElementById("search");
+    const chips = document.getElementById("chips");
+    const cards = Array.from(document.querySelectorAll("#grid .post-card"));
+
+    let activeCat = "all";
+    let q = "";
+
+    function apply() {
+      const query = q.trim().toLowerCase();
+      cards.forEach(card => {
+        const cat = card.dataset.cat || "";
+        const title = card.dataset.title || "";
+        const matchCat = activeCat === "all" || cat === activeCat;
+        const matchText = !query || title.includes(query);
+        card.style.display = (matchCat && matchText) ? "" : "none";
+      });
+    }
+
+    chips.addEventListener("click", (e) => {
+      const btn = e.target.closest(".chip");
+      if (!btn) return;
+      activeCat = btn.dataset.cat;
+      document.querySelectorAll(".chip").forEach(b => b.classList.remove("is-active"));
+      btn.classList.add("is-active");
+      apply();
+    });
+
+    search.addEventListener("input", (e) => {
+      q = e.target.value;
+      apply();
+    });
+  </script>
 </BaseLayout>

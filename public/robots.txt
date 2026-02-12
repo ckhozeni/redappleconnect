@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://warm-moonbeam-7b7ca3.netlify.app/sitemap-index.xml

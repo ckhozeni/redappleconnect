@@ -1,5 +1,8 @@
-// @ts-check
-import { defineConfig } from 'astro/config';
+import { defineConfig } from "astro/config";
+import sitemap from "@astrojs/sitemap";
 
-// https://astro.build/config
-export default defineConfig({});
+export default defineConfig({
+  site: "https://warm-moonbeam-7b7ca3.netlify.app",
+  integrations: [sitemap()],
+});
+
